@@ -11,13 +11,14 @@ public class ScrabbleDictionaryTest {
 
 	@Test
 	public void testScrabble() throws FileNotFoundException {
-		
-	ScrabbleDictionary scTest = new ScrabbleDictionary();
-		
-	scTest.contains("hello");  
-	
-	Assert.assertTrue( "hello", true);  //Test the boolean method using assertTrue
-	
+
+		ScrabbleDictionary scTest = new ScrabbleDictionary();
+
+		scTest.contains("hello");
+
+		Assert.assertTrue("hello", true); // Test the boolean method using
+											// assertTrue
+
 	}
 
 }
