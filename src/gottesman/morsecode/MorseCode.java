@@ -1,5 +1,7 @@
 package gottesman.morsecode;
 
+import java.util.HashMap;
+
 public class MorseCode {
 
 	private String[] morsecode = { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..",
@@ -8,67 +10,86 @@ public class MorseCode {
 	private char[] alpha = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
 			's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
+	HashMap<Character, String> morseMap;
+	HashMap<String, Character> engMap;
+
 	public MorseCode() {
 
 	}
 
 	public String encode(String message) {
 
-		String morseMsg = ""; // String for the final encoded message
+		morseMap = new HashMap<Character, String>();
 
-		for (int i = 0; i < message.length(); i++) {
-
-			if (message.charAt(i) == ' ') { // If blank, add a space
-
-				morseMsg += " ";
-			}
-			for (int j = 0; j < alpha.length; j++) {
-
-				if (message.charAt(i) == alpha[j]) { // Compare the letters
-
-					if (i < message.length() - 1)
-						morseMsg += morsecode[j] + " ";
-
-					else
-						morseMsg += morsecode[j]; // Add the morsecode value to
-													// the string
-				}
-
-			}
+		// Add the keys and values into the map
+		for (int j = 0; j < alpha.length; j++) {
+			morseMap.put(alpha[j], morsecode[j]);
 		}
 
-		return morseMsg;
+		StringBuilder finalEngMsg = new StringBuilder(5000);
+
+		int i = 0;
+
+		while (i < message.length()) {
+
+			// If word is finished, jump to the next word
+			if (message.charAt(i) == ' ') {
+				finalEngMsg.append("  ");
+				i++;
+			}
+
+			// Append the value for the specified key character at specified
+			// position
+			finalEngMsg.append(morseMap.get(message.charAt(i)));
+			i++;
+			finalEngMsg.append(" ");
+
+		}
+
+		return finalEngMsg.toString();
 
 	}
 
 	public String decode(String code) {
 
-		String engMsg = "";
+		engMap = new HashMap<String, Character>();
 
-		// Split by word, and then by letter
-		String[] codeWord = code.split("  ");
+		// Add the keys and values to the map
+		for (int j = 0; j < alpha.length; j++) {
+			engMap.put(morsecode[j], alpha[j]);
+		}
+
+		StringBuilder finalMorseMsg = new StringBuilder(5000);
+
+		// Split the code by words and letters
+
+		String[] codeWord = code.split("   ");
 		String[] codeLetter = new String[100];
 
 		for (int j = 0; j < codeWord.length; j++) {
 			codeLetter = codeWord[j].split(" ");
+		}
 
-			for (int x = 0; x < codeLetter.length; x++) {
-				for (int p = 0; p < morsecode.length; p++) {
+		int i = 0;
 
-					if (codeLetter[x].equalsIgnoreCase(morsecode[p])) {
+		while (i < codeLetter.length) {
 
-						engMsg += alpha[p]; // add the letter value to the
-											// string
-					}
-
-				}
+			// If word is finished, jump to the next
+			if (codeLetter[i].equals("   ")) {
+				finalMorseMsg.append(" ");
+				i++;
 			}
-			if (j < codeWord.length - 1) {
-				engMsg += " "; // add a space
-			}
+
+			// Append the value for the specified key character at specified
+			// position
+
+			finalMorseMsg.append(engMap.get(codeLetter[i]));
+			i++;
 
 		}
 
-		return engMsg;
+		return finalMorseMsg.toString();
+
 	}
+
 }
