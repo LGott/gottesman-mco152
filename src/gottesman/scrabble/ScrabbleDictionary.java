@@ -1,44 +1,47 @@
 package gottesman.scrabble;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 public class ScrabbleDictionary {
 
 	String word;
-	ArrayList<String> dictionaryWords;
+	ArrayList<String> dictionary;
 	Set<String> dicSet;
+	String line;
 
-	public ScrabbleDictionary() throws FileNotFoundException {
+	public ScrabbleDictionary() throws IOException {
 
 		dicSet = new HashSet<String>();
-        dictionaryWords = new ArrayList<String>();
 
-		// Open the dictionary file
-		Scanner readFile = new Scanner(new File("C:/Users/Leba Gottesman/Downloads/us/US.dic"));
+		BufferedReader in = new BufferedReader(new FileReader("C:/Users/Leba Gottesman/Downloads/us/US.dic"));
 
-		while (readFile.hasNext()) { // Read through the file and add the words
-										// to the arraylist
+		dictionary = new ArrayList<String>();
 
-			dictionaryWords.add(readFile.nextLine());
+		while ((line = in.readLine()) != null)
+
+		{
+			dictionary.add(line);
 		}
 
-		for (String dicWord : dictionaryWords) {
+		in.close();
 
-			dicSet.add(dicWord);  //Add the words to the set
+		for (String dicWord : dictionary) {
+
+			dicSet.add(dicWord); // Add the words to the set
 
 		}
 	}
 
 	public boolean contains(String word) {
- 
+
 		// If the dictionary contains the words,return true
-									
-	   return dicSet.contains(word);
-	
-    }
+
+		return dicSet.contains(word);
+
+	}
 }

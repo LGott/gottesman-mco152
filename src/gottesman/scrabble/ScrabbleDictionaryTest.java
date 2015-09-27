@@ -1,8 +1,6 @@
 package gottesman.scrabble;
 
-import static org.junit.Assert.*;
-
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,7 +8,7 @@ import org.junit.Test;
 public class ScrabbleDictionaryTest {
 
 	@Test
-	public void testScrabble() throws FileNotFoundException {
+	public void testScrabble() throws IOException {
 
 		ScrabbleDictionary scTest = new ScrabbleDictionary();
 
