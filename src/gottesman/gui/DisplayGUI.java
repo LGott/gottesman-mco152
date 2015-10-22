@@ -2,16 +2,16 @@ package gottesman.gui;
 
 import javax.swing.JFrame;
 
-import gottesman.homework1.InvalidDataException;
-
 public class DisplayGUI {
 
 	public static void main(String args[]) {
 
 		JFrame frame = null;
 		try {
-			frame = new ProjectileGUI();
+			frame = new QuadraticGui();
+
 		} catch (InvalidDataException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
