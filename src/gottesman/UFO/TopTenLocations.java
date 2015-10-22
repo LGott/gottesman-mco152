@@ -1,7 +1,6 @@
 package gottesman.UFO;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,39 +16,41 @@ public class TopTenLocations implements Comparator<ArrayList<String>> {
 	public static void main(String[] args) throws IOException {
 
 		FindTopTen find = new FindTopTen();
+		try {
+			ArrayList<ArrayList<String>> locations = find
+					.topTen("C:/Users/Leba Gottesman/Documents/Touro College/gottesman-mco152/ufo_awesome.json");
 
-		ArrayList<ArrayList<String>> locations = find
-				.topTen("C:/Users/Leba Gottesman/Documents/Touro College/gottesman-mco152/ufo_awesome.json");
+			// Create a Comparator class so that the Array can be sorted
 
-		// Create a Comparator class so that the Array can be sorted
-
-		class stringComparator implements Comparator<ArrayList<String>> {
-			@Override
-			public int compare(ArrayList<String> a, ArrayList<String> b) {
-				if (a.size() < b.size()) {
-					return -1;
-				}
-				if (a.size() > b.size()) {
-					return 1;
-				} else {
-					return 0;
+			class stringComparator implements Comparator<ArrayList<String>> {
+				@Override
+				public int compare(ArrayList<String> a, ArrayList<String> b) {
+					if (a.size() < b.size()) {
+						return -1;
+					}
+					if (a.size() > b.size()) {
+						return 1;
+					} else {
+						return 0;
+					}
 				}
 			}
-		}
 
-		/*
-		 * In order to get the top ten locations, sort the
-		 * ArrayList<ArrayList<String>> of locations according to the size of
-		 * each location array (reversed), so that the first ten positions in
-		 * the array are the top ten locations.
-		 */
+			/*
+			 * In order to get the top ten locations, sort the
+			 * ArrayList<ArrayList<String>> of locations according to the size
+			 * of each location array (reversed), so that the first ten
+			 * positions in the array are the top ten locations.
+			 */
 
-		Collections.sort(locations, new stringComparator().reversed());
+			Collections.sort(locations, new stringComparator().reversed());
 
-		// Print out the first ten positions in the array
-		for (int i = 0; i < 10; i++) {
+			// Print out the first ten positions in the array
+			for (int i = 0; i < 10; i++) {
 
-			System.out.println(locations.get(i).get(0) + ": " + locations.get(i).size() + " UFO Sightings");
+				System.out.println(locations.get(i).get(0) + ": " + locations.get(i).size() + " UFO Sightings");
+			}
+		} catch (IOException e1) {
 		}
 	}
 
@@ -61,7 +62,7 @@ public class TopTenLocations implements Comparator<ArrayList<String>> {
 
 class FindTopTen {
 
-	public ArrayList<ArrayList<String>> topTen(String jsonFile) throws FileNotFoundException {
+	public ArrayList<ArrayList<String>> topTen(String jsonFile) throws IOException {
 
 		BufferedReader in = new BufferedReader(new FileReader(jsonFile));
 
@@ -69,6 +70,8 @@ class FindTopTen {
 
 		// Read in the JSON File
 		final UFOSightingList list = gson.fromJson(in, UFOSightingList.class);
+
+		in.close();
 
 		// Create a map that has a String key and an ArrayList of the key value
 		Map<String, ArrayList<String>> locationsMap = new HashMap<String, ArrayList<String>>();
