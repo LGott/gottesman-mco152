@@ -17,8 +17,7 @@ public class TopTenLocations implements Comparator<ArrayList<String>> {
 
 		FindTopTen find = new FindTopTen();
 		try {
-			ArrayList<ArrayList<String>> locations = find
-					.topTen("C:/Users/Leba Gottesman/Documents/Touro College/gottesman-mco152/ufo_awesome.json");
+			ArrayList<ArrayList<String>> locations = find.topTen("./ufo_awesome.json");
 
 			// Create a Comparator class so that the Array can be sorted
 
