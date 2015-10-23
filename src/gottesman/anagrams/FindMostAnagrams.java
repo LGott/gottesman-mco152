@@ -10,26 +10,26 @@ public class FindMostAnagrams {
 
 			MostAnagrams findAnagrams = new MostAnagrams();
 
-			//Call the getAnagrams method to return the anagrams into an arrayList
-		
-			ArrayList<ArrayList<String>> anagramList = 
-					findAnagrams.getAnagrams("C:/Users/Leba Gottesman/Downloads/us/US.dic");
+			// Call the getAnagrams method to return the anagrams into an
+			// arrayList
+
+			ArrayList<ArrayList<String>> anagramList = findAnagrams.getAnagrams("./US.dic");
 
 			int i = 0;
 			int count = 0;
 
-			//Find the largest group of anagrams in the array
+			// Find the largest group of anagrams in the array
 			for (ArrayList<String> group : anagramList) {
 
 				if (i < group.size()) {
-					
+
 					i = group.size();
 					count = i;
 				}
 			}
 
-			//Print out only the largest anagram group in the arrayList
-			
+			// Print out only the largest anagram group in the arrayList
+
 			for (ArrayList<String> group : anagramList) {
 
 				if (group.size() == count) {
@@ -43,7 +43,7 @@ public class FindMostAnagrams {
 
 			System.out.println("\nQuantity of Largest Set: " + count);
 		} catch (IOException e) {
-			
+
 		}
 	}
 }
