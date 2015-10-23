@@ -18,7 +18,7 @@ public class ScrabbleDictionary {
 
 		dicSet = new HashSet<String>();
 
-		BufferedReader in = new BufferedReader(new FileReader("C:/Users/Leba Gottesman/Downloads/us/US.dic"));
+		BufferedReader in = new BufferedReader(new FileReader("./US.dic"));
 
 		dictionary = new ArrayList<String>();
 
