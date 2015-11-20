@@ -159,7 +159,7 @@ public class ConnectFour extends JPanel {
 
 						// Print out the winner based on the player piece color
 						String winner = (player == Piece.RED) ? "Red is the Winner!! Awesome Job!!"
-								: "Black is the winner!! awesome job!";
+								: "Blue is the winner!! awesome job!";
 
 						JOptionPane.showMessageDialog(this, winner);
 						this.redrawBoard(); // Redraw the board
@@ -172,7 +172,7 @@ public class ConnectFour extends JPanel {
 							&& (board[i][j + 3] == player)) {
 
 						String winner = (player == Piece.RED) ? "Red is the Winner!! Awesome Job!!"
-								: "Black is the winner!! awesome job!";
+								: "Blue is the winner!! awesome job!";
 
 						JOptionPane.showMessageDialog(this, winner);
 						this.redrawBoard();
@@ -184,7 +184,7 @@ public class ConnectFour extends JPanel {
 							&& (board[i - 3][j - 3] == player)) {
 
 						String winner = (player == Piece.RED) ? "Red is the Winner!! Awesome Job!!"
-								: "Black is the winner!! awesome job!";
+								: "Blue is the winner!! awesome job!";
 
 						JOptionPane.showMessageDialog(this, winner);
 						this.redrawBoard();
@@ -200,7 +200,7 @@ public class ConnectFour extends JPanel {
 						&& (board[i + 3][j - 3] == player)) {
 
 					String winner = (player == Piece.RED) ? "Red is the Winner!! Awesome Job!!"
-							: "Black is winner!! awesome job!";
+							: "Blue is winner!! awesome job!";
 
 					JOptionPane.showMessageDialog(this, winner);
 					this.redrawBoard();
