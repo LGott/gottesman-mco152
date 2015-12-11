@@ -23,8 +23,8 @@ public class WeatherGUI extends JFrame {
 	private JLabel command;
 	private JTextField zipcode;
 	private JButton button;
-	JLabel imageLabel;
-	Weather[] weather;
+	private JLabel imageLabel;
+	private String temp;
 
 	private static final long serialVersionUID = 1L;
 
@@ -37,7 +37,7 @@ public class WeatherGUI extends JFrame {
 		setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		command = new JLabel("Enter zipcode of location you would like to search: ");
-		zipcode = new JTextField("11235");
+		zipcode = new JTextField();
 		Dimension dim = new Dimension(400, 150);
 		zipcode.setMaximumSize(dim);
 
@@ -72,7 +72,7 @@ public class WeatherGUI extends JFrame {
 					Main main = cw.getMain();
 
 					description = w[0].getDescription();
-					String temp = main.getTemp();
+					temp = main.getTemp();
 
 					des.setText(description);
 					degrees.setText(temp);
