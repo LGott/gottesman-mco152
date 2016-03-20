@@ -14,6 +14,20 @@ public class ScrabbleDictionary {
 	Set<String> dicSet;
 	String line;
 
+	private static ScrabbleDictionary singleton;
+
+	public static ScrabbleDictionary getInstance() throws IOException {
+
+		if (singleton == null) {
+
+			singleton = new ScrabbleDictionary();
+		}
+
+		return singleton;
+	}
+
+	// Make the constructor private so that no one can make a new instance and
+	// can only use the singleton one
 	public ScrabbleDictionary() throws IOException {
 
 		dicSet = new HashSet<String>();

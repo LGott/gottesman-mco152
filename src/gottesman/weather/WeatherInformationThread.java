@@ -11,19 +11,21 @@ import javax.imageio.ImageIO;
 
 import com.google.gson.Gson;
 
-public class WeatherInformation {
+public class WeatherInformationThread extends Thread {
 
 	private String zip;
 	final Gson gson = new Gson();
 	CurrentWeather cw;
+	BufferedReader reader;
 
-	public WeatherInformation(String zip) throws IOException {
+	public WeatherInformationThread(String zip) throws IOException {
 
 		this.zip = zip;
 
 	}
 
-	public CurrentWeather getWeather() throws IOException {
+	@Override
+	public void run() {
 
 		StringBuilder urlBuilder = new StringBuilder();
 
@@ -31,18 +33,28 @@ public class WeatherInformation {
 		urlBuilder.append(this.zip);
 		urlBuilder.append(",us&appid=2de143494c0b295cca9337e1e96b00e0&units=imperial");
 
-		URL completeURL = new URL(urlBuilder.toString());
+		URL completeURL;
+		try {
+			completeURL = new URL(urlBuilder.toString());
 
-		HttpURLConnection connection = (HttpURLConnection) completeURL.openConnection();
+			HttpURLConnection connection = (HttpURLConnection) completeURL.openConnection();
 
-		java.io.InputStream read = connection.getInputStream();
+			java.io.InputStream read = connection.getInputStream();
 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(read));
+			reader = new BufferedReader(new InputStreamReader(read));
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public CurrentWeather getWeather() {
 
 		cw = gson.fromJson(reader, CurrentWeather.class);
 
 		return cw;
-
 	}
 
 	public Image imageConnection() throws IOException {

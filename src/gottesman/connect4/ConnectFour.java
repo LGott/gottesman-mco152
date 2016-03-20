@@ -91,9 +91,8 @@ public class ConnectFour extends JPanel {
 
 			this.checkWin(); // Call the check method
 
-			player = (player == Piece.RED) ? Piece.BLUE : Piece.RED; // Switch the player
-		}
-		if ((x > 150) && (x < 300) && (columnCount[1] >= 0)) {
+			// player = (player == Piece.RED) ? Piece.BLUE : Piece.RED; // Switch the player
+		} else if ((x > 150) && (x < 300) && (columnCount[1] >= 0)) {
 
 			board[1][columnCount[1]] = player;
 			columnCount[1]--;
@@ -102,9 +101,8 @@ public class ConnectFour extends JPanel {
 				JOptionPane.showMessageDialog(this, "No more room in this column!");
 			}
 			this.checkWin();
-			player = (player == Piece.RED) ? Piece.BLUE : Piece.RED;
-		}
-		if ((x > 450) && (x < 600) && (columnCount[2] >= 0)) {
+			// player = (player == Piece.RED) ? Piece.BLUE : Piece.RED;
+		} else if ((x > 450) && (x < 600) && (columnCount[2] >= 0)) {
 			board[2][columnCount[2]] = player;
 			columnCount[2]--;
 			repaint();
@@ -112,9 +110,8 @@ public class ConnectFour extends JPanel {
 				JOptionPane.showMessageDialog(this, "No more room in this column!");
 			}
 			this.checkWin();
-			player = (player == Piece.RED) ? Piece.BLUE : Piece.RED;
-		}
-		if ((x > 600) && (x < 750) && (columnCount[3] >= 0)) {
+			// player = (player == Piece.RED) ? Piece.BLUE : Piece.RED;
+		} else if ((x > 600) && (x < 750) && (columnCount[3] >= 0)) {
 			board[3][columnCount[3]] = player;
 			columnCount[3]--;
 			repaint();
@@ -122,9 +119,8 @@ public class ConnectFour extends JPanel {
 				JOptionPane.showMessageDialog(this, "No more room in this column!");
 			}
 			this.checkWin();
-			player = (player == Piece.RED) ? Piece.BLUE : Piece.RED;
-		}
-		if ((x > 750) && (x < 900) && (columnCount[4] >= 0)) {
+			// player = (player == Piece.RED) ? Piece.BLUE : Piece.RED;
+		} else if ((x > 750) && (x < 900) && (columnCount[4] >= 0)) {
 			board[4][columnCount[4]] = player;
 			columnCount[4]--;
 			repaint();
@@ -132,9 +128,8 @@ public class ConnectFour extends JPanel {
 				JOptionPane.showMessageDialog(this, "No more room in this column!");
 			}
 			this.checkWin();
-			player = (player == Piece.RED) ? Piece.BLUE : Piece.RED;
-		}
-		if ((x > 950) && (x < 2000) && (columnCount[5] >= 0)) {
+			// player = (player == Piece.RED) ? Piece.BLUE : Piece.RED;
+		} else if ((x > 950) && (x < 2000) && (columnCount[5] >= 0)) {
 			board[5][columnCount[5]] = player;
 			columnCount[5]--;
 			repaint();
@@ -142,8 +137,11 @@ public class ConnectFour extends JPanel {
 				JOptionPane.showMessageDialog(this, "No more room in this column!");
 			}
 			this.checkWin();
-			player = (player == Piece.RED) ? Piece.BLUE : Piece.RED;
+
 		}
+
+		player = (player == Piece.RED) ? Piece.BLUE : Piece.RED;
+
 	}
 
 	public void checkWin() {
@@ -165,6 +163,7 @@ public class ConnectFour extends JPanel {
 						this.redrawBoard(); // Redraw the board
 					}
 				}
+
 				if ((i < board.length) && (j < (board[i].length - 2))) {
 
 					// check for four in a row vertically
@@ -193,9 +192,10 @@ public class ConnectFour extends JPanel {
 
 			}
 		}
+
 		for (int i = 0; i < (board.length - 3); i++) {
-			for (int j = 6; j > 2; j--) {
-				// check for four in a row diagonally
+			for (int j = 6; j > 2; j--) { // check for four in a row diagonally
+
 				if ((board[i][j] == player) && (board[i + 1][j - 1] == player) && (board[i + 2][j - 2] == player)
 						&& (board[i + 3][j - 3] == player)) {
 

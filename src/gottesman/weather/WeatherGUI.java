@@ -60,13 +60,13 @@ public class WeatherGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 
-				WeatherInformation weather = null;
+				// WeatherInformationThread weather = null;
 
 				try {
 
-					weather = new WeatherInformation(zipcode.getText());
+					WeatherInformationThread weatherThread = new WeatherInformationThread(zipcode.getText());
 
-					CurrentWeather cw = weather.getWeather();
+					CurrentWeather cw = weatherThread.getWeather();
 
 					Weather[] w = cw.getWeather();
 					Main main = cw.getMain();
@@ -77,7 +77,7 @@ public class WeatherGUI extends JFrame {
 					des.setText(description);
 					degrees.setText(temp);
 
-					image = weather.imageConnection();
+					image = weatherThread.imageConnection();
 					imageIcon.setImage(image);
 					imageLabel.setIcon(imageIcon);
 
