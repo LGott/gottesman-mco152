@@ -6,102 +6,138 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-import javax.swing.ImageIcon;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 
 public class NYPLGui extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JList<String> titles;
-	private JTextField searchBox;
-	private JButton button;
-	private JPanel panel;
-	private String searchText;
-	private NYPLThread thread;
-	private ImageIcon image;
+	private Container container;
+	private JTextField search;
+	private JButton searchButton;
+	private JPanel northPanel;
+	private JPanel southNorthPanel;
+	private JButton previous;
+	private JButton next;
+	private JLabel num;
+	private JPanel centerPanel;
+	private JList<String> listBox;
+	private DefaultListModel<String> listModel;
+	private JScrollPane listScroller;
+	private JLabel icon;
+	private NYPLGui self;
+	private Result[] result;
+	private ImageConnection imgThread;
 
 	public NYPLGui() {
 		setTitle("NYPL Search");
-		setSize(500, 700);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(800, 600);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.container = getContentPane();
+		this.search = new JTextField();
+		this.searchButton = new JButton("Search");
+		this.northPanel = new JPanel();
+		this.southNorthPanel = new JPanel();
+		this.previous = new JButton("Previous");
+		this.next = new JButton("Next");
+		this.num = new JLabel("0/0");
+		this.centerPanel = new JPanel();
+		this.listModel = new DefaultListModel<String>();
+		this.listBox = new JList<String>(listModel);
+		this.icon = new JLabel();
+		this.listScroller = new JScrollPane(icon);
+		this.self = this;
+		this.result = null;
+		setComponents();
+		addComponents();
+	}
 
-		BorderLayout layout = new BorderLayout();
-		Container container = getContentPane();
-		container.setLayout(layout);
+	public void setComponents() {
+		container.setLayout(new BorderLayout());
+		this.northPanel.setLayout(new BorderLayout());
+		this.centerPanel.setLayout(new BorderLayout());
+		this.listBox.setLayoutOrientation(JList.VERTICAL_WRAP);
+		this.listBox.setVisibleRowCount(-1);
+		this.previous.setEnabled(false);
+		this.next.setEnabled(false);
+	}
 
-		titles = new JList<String>();
-		titles.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		// titles.setMaximumSize(30);
-		titles.setLayoutOrientation(JList.VERTICAL);
-		titles.setVisibleRowCount(-1);
+	private void addComponents() {
+		this.northPanel.add(this.searchButton, BorderLayout.EAST);
+		this.northPanel.add(this.search, BorderLayout.CENTER);
+		this.centerPanel.add(this.southNorthPanel, BorderLayout.NORTH);
+		this.centerPanel.add(this.listScroller, BorderLayout.CENTER);
+		this.southNorthPanel.add(this.previous);
+		this.southNorthPanel.add(this.num);
+		this.southNorthPanel.add(this.next);
+		container.add(this.northPanel, BorderLayout.NORTH);
+		container.add(this.listBox, BorderLayout.WEST);
+		this.container.add(this.centerPanel, BorderLayout.CENTER);
 
-		searchBox = new JTextField("");
-		button = new JButton("Search");
-
-		image = new ImageIcon();
-
-		panel = new JPanel();
-
-		button.setVisible(true);
-
-		panel.add(button);
-		panel.setVisible(true);
-
-		container.add(searchBox, BorderLayout.NORTH);
-
-		container.add(panel, BorderLayout.SOUTH);
-
-		container.setVisible(true);
-
-		container.add(new JScrollPane(titles), BorderLayout.WEST);
-
-		button.addActionListener(new ActionListener() {
-
+		this.search.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent event) {
-				// TODO Auto-generated method stub
-
-				searchText = searchBox.getText();
-
-				thread = new NYPLThread(titles, searchText);
-				thread.start();
-
+			public void actionPerformed(ActionEvent e) {
+				startSearch(search.getText());
+			}
+		});
+		this.searchButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				startSearch(search.getText());
 			}
 		});
 
-		MouseListener mouseListener = new MouseAdapter() {
+		listBox.addMouseListener(new MouseAdapter() {
+
 			@Override
-			public void mouseClicked(MouseEvent mouseEvent) {
-				if (mouseEvent.getClickCount() == 1) {
+			public void mouseClicked(MouseEvent evt) {
+				JList<?> list = (JList<?>) evt.getSource();
+				if (evt.getClickCount() == 1) {
 
-					int index = titles.locationToIndex(mouseEvent.getPoint());
-					if (index >= 0) {
+					int index = list.getSelectedIndex();
 
-						Result result = thread.getResults()[index];
-						String url = result.getURl();
-						// ImageConnection imageThread = new ImageConnection(url, image);
-						// imageThread.start();
+					ImageConnection imgThread = new ImageConnection(result[index].getApiItemURL(), icon, num, previous,
+							next, self);
+					imgThread.start();
 
-					}
 				}
 			}
-		};
-		titles.addMouseListener(mouseListener);
+		});
+		this.previous.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				imgThread.previousImage();
+			}
 
+		});
+		this.next.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				imgThread.nextImage();
+			}
+		});
 	}
 
-	public static void main(String[] args) {
-		NYPLGui nypl = new NYPLGui();
-		nypl.setVisible(true);
+	public void setResult(Result[] result) {
+		this.result = result;
+	}
+
+	public void setPicThread(ImageConnection imgThread) {
+		this.imgThread = imgThread;
+	}
+
+	public void startSearch(String searchTopic) {
+		SearchThread thread = new SearchThread(listModel, listBox, icon, searchTopic, this.num, this.previous,
+				this.next, this.self);
+		thread.start();
 	}
 }

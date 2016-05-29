@@ -1,18 +1,24 @@
 package gottesman.nypl;
 
+import java.net.URL;
+
 public class Result {
-
+	URL apiItemURL;
 	String title;
-	String apiItemURL;
 
-	public Result() {
+	public URL getApiItemURL() {
+		return apiItemURL;
+	}
+
+	public void setApiItemURL(URL apiItemURL) {
+		this.apiItemURL = apiItemURL;
 	}
 
 	public String getTitle() {
-		return this.title;
+		return title;
 	}
 
-	public String getURl() {
-		return this.apiItemURL;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }

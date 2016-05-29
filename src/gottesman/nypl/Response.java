@@ -1,15 +1,31 @@
 package gottesman.nypl;
 
 public class Response {
-
+	int numResults;
 	Result[] result;
 	Capture[] capture;
 
-	public Result[] getResults() {
-		return this.result;
+	public Capture[] getCapture() {
+		return capture;
 	}
 
-	public Capture[] getCaptures() {
-		return this.capture;
+	public void setCapture(Capture[] capture) {
+		this.capture = capture;
+	}
+
+	public int getNumResults() {
+		return numResults;
+	}
+
+	public void setNumResults(int numResults) {
+		this.numResults = numResults;
+	}
+
+	public Result[] getResult() {
+		return result;
+	}
+
+	public void setResult(Result[] result) {
+		this.result = result;
 	}
 }

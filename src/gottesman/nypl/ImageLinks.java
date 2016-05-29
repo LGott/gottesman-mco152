@@ -1,11 +1,16 @@
 package gottesman.nypl;
 
+import java.net.URL;
+
 public class ImageLinks {
+	URL[] imageLink;
 
-	ImageLink[] imageLinks;
+	public URL[] getImageLink() {
+		return imageLink;
+	}
 
-	public ImageLink[] getImageLinks() {
-		return imageLinks;
+	public void setImageLink(URL[] imageLink) {
+		this.imageLink = imageLink;
 	}
 
 }
